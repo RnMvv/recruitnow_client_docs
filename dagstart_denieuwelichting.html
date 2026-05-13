@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Cockpit Dagstart – Gebruikersdocumentatie | RecruitNow</title>
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 10pt; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, Arial, sans-serif;
+      color: #3d3d3d;
+      background: #f2f4f6;
+      line-height: 1.65;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; font-size: 9.5pt; }
+      .topnav { display: none; }
+      .hero { border-radius: 0; }
+      .main-wrap { padding: 0 32px; }
+      h2 { page-break-before: always; }
+      h2.no-break { page-break-before: avoid; }
+      .card-row, .visual-grid, table, .callout { page-break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+      .section-card { box-shadow: none; border: 1px solid #ddd; }
+    }
+
+    /* ══════════════════════════════════════
+       LOGO SVG — scoped classes
+    ══════════════════════════════════════ */
+    /* Zwart (nav – witte achtergrond) */
+    #nav-logo .nl1 { fill: #090909; stroke: #000; stroke-miterlimit: 10; }
+    #nav-logo .nl2 { fill: #1a1a1a; stroke-width: 0px; }
+    #nav-logo .nl3 { fill: #1d1d1b; stroke-width: 0px; }
+    /* Wit (footer – donkere achtergrond) */
+    #ft-logo .fl1  { fill: #fff; stroke: #fff; stroke-miterlimit: 10; }
+    #ft-logo .fl2  { fill: #fff; stroke-width: 0px; }
+
+    /* ══════════════════════════════════════
+       TOP NAV
+    ══════════════════════════════════════ */
+    .topnav {
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0 40px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topnav .logo-link { display: flex; align-items: center; flex-shrink: 0; text-decoration: none; }
+    .topnav .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+      font-size: 8.5pt;
+    }
+    .topnav .nav-links a {
+      color: #555;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+    .topnav .nav-links a:hover { background: #f5f5f5; color: #1a1a1a; }
+    .topnav .nav-links .active { color: #f04e60; font-weight: 600; }
+    .topnav .nav-right { margin-left: auto; font-size: 8pt; color: #888; }
+
+    /* ══════════════════════════════════════
+       HERO BANNER
+    ══════════════════════════════════════ */
+    .hero {
+      background: #f04e60;
+      padding: 52px 40px 48px;
+      text-align: center;
+      color: #fff;
+    }
+    .hero .hero-eyebrow {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 24pt;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .hero .hero-sub {
+      font-size: 10pt;
+      color: rgba(255,255,255,.8);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      line-height: 1.6;
+    }
+    .hero .hero-meta {
+      display: inline-flex;
+      gap: 0;
+      background: rgba(0,0,0,.15);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 8pt;
+    }
+    .hero .hero-meta-item {
+      padding: 10px 20px;
+      border-right: 1px solid rgba(255,255,255,.15);
+    }
+    .hero .hero-meta-item:last-child { border-right: none; }
+    .hero .hero-meta-item .mk { color: rgba(255,255,255,.55); margin-bottom: 2px; }
+    .hero .hero-meta-item .mv { color: #fff; font-weight: 600; }
+
+    /* ══════════════════════════════════════
+       MAIN LAYOUT
+    ══════════════════════════════════════ */
+    .main-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ══════════════════════════════════════
+       TABLE OF CONTENTS
+    ══════════════════════════════════════ */
+    .toc-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      border-top: 3px solid #f04e60;
+    }
+    .toc-card .toc-title {
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #f04e60;
+      margin-bottom: 16px;
+    }
+    .toc-card ol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 32px;
+      padding-left: 18px;
+    }
+    .toc-card li { font-size: 9.5pt; margin-bottom: 2px; }
+    .toc-card a { color: #1a5068; text-decoration: none; font-weight: 500; }
+    .toc-card a:hover { color: #f04e60; text-decoration: underline; }
+
+    /* ══════════════════════════════════════
+       SECTION CARDS
+    ══════════════════════════════════════ */
+    .section-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    }
+
+    /* ══════════════════════════════════════
+       HEADINGS
+    ══════════════════════════════════════ */
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #1a5068;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 .sec-num {
+      background: #f04e60;
+      color: #fff;
+      font-size: 8.5pt;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 9px;
+      flex-shrink: 0;
+    }
+    h3 {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1a5068;
+      margin: 24px 0 8px;
+    }
+
+    p { margin-bottom: 10px; font-size: 9.5pt; }
+    ul, ol { padding-left: 22px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; font-size: 9.5pt; }
+    strong { color: #1a1a1a; }
+
+    /* ══════════════════════════════════════
+       CALLOUT BOXES
+    ══════════════════════════════════════ */
+    .callout {
+      display: flex;
+      gap: 14px;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 9.5pt;
+    }
+    .callout-icon { font-size: 14pt; flex-shrink: 0; line-height: 1.6; }
+    .callout.tip  { background: #eef8f3; border-left: 3px solid #22a06b; }
+    .callout.info { background: #eef3fb; border-left: 3px solid #1a5068; }
+    .callout.warn { background: #fff8ed; border-left: 3px solid #e68e2b; }
+
+    /* ══════════════════════════════════════
+       KPI CARDS
+    ══════════════════════════════════════ */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .kpi-card {
+      background: #f2f4f6;
+      border-radius: 8px;
+      padding: 20px 18px;
+      text-align: center;
+    }
+    .kpi-card .kpi-num {
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #f04e60;
+      margin-bottom: 6px;
+    }
+    .kpi-card .kpi-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #1a5068;
+      margin-bottom: 8px;
+    }
+    .kpi-card .kpi-desc {
+      font-size: 8.5pt;
+      color: #666;
+      line-height: 1.55;
+    }
+
+    /* ══════════════════════════════════════
+       VISUAL GRID (chart cards)
+    ══════════════════════════════════════ */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .visual-card {
+      background: #f2f4f6;
+      border-radius: 8px;
+      padding: 20px 18px;
+    }
+    .visual-card .vc-icon { font-size: 18pt; margin-bottom: 8px; display: block; }
+    .visual-card .vc-title { font-weight: 700; font-size: 9.5pt; color: #1a5068; margin-bottom: 6px; }
+    .visual-card .vc-desc { font-size: 8.5pt; color: #555; line-height: 1.55; }
+
+    /* ══════════════════════════════════════
+       STEPS
+    ══════════════════════════════════════ */
+    .steps { counter-reset: step; padding: 0; list-style: none; margin: 14px 0; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      font-size: 9.5pt;
+    }
+    .steps li::before {
+      content: counter(step);
+      min-width: 24px;
+      height: 24px;
+      background: #f04e60;
+      color: #fff;
+      font-size: 8pt;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════════
+       PILLS
+    ══════════════════════════════════════ */
+    .pill {
+      display: inline-block;
+      background: #eef3fb;
+      color: #1a5068;
+      border: 1px solid #c5d8e8;
+      border-radius: 100px;
+      padding: 1px 10px;
+      font-size: 8.5pt;
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════
+       TABLES
+    ══════════════════════════════════════ */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 9pt;
+    }
+    thead tr { background: #1a5068; color: #fff; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f8f9fb; }
+    tbody tr:hover { background: #eef3fb; }
+    tbody td { padding: 9px 14px; border-bottom: 1px solid #e8ecf0; vertical-align: top; }
+
+    /* ══════════════════════════════════════
+       BADGES
+    ══════════════════════════════════════ */
+    .badge {
+      display: inline-block;
+      background: #f04e60;
+      color: #fff;
+      border-radius: 4px;
+      padding: 1px 8px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: .3px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+    .badge.teal  { background: #1a5068; }
+    .badge.green { background: #22a06b; }
+
+    /* ══════════════════════════════════════
+       CONTACT BANNER
+    ══════════════════════════════════════ */
+    .contact-banner {
+      background: #f04e60;
+      border-radius: 8px;
+      padding: 32px 40px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .contact-banner h3 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .contact-banner p {
+      font-size: 9.5pt;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 18px;
+    }
+    .btn-dark {
+      display: inline-block;
+      background: #1a2a38;
+      color: #fff;
+      text-decoration: none;
+      font-size: 9pt;
+      font-weight: 600;
+      padding: 9px 24px;
+      border-radius: 6px;
+      letter-spacing: .3px;
+    }
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: #1a5068;
+      border: 1.5px solid #1a5068;
+      text-decoration: none;
+      font-size: 9pt;
+      font-weight: 600;
+      padding: 8px 22px;
+      border-radius: 6px;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .site-footer {
+      background: #1a2a38;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: rgba(255,255,255,.45);
+    }
+    .site-footer .logo-wrap { display: flex; align-items: center; }
+    .site-footer a { color: rgba(255,255,255,.5); text-decoration: none; }
+    .site-footer a:hover { color: #f04e60; }
+
+    /* ══════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════ */
+    .divider { height: 1px; background: #e8ecf0; margin: 8px 0 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <a class="logo-link" href="https://support.recruitnow.nl">
+      <svg id="nav-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1820.95 377.9" style="height:30px;width:auto;">
+        <path class="nl1" d="M272.25,74.17v90.4c0,2.2-.4,4.3-1.3,6.3-.8,2-2.1,3.7-3.6,5.2l-53.2,54.5c-1.3,1.6-2.9,2.9-4.8,3.8-2,1-4.1,1.4-6.2,1.4H14.75c-1.5.1-3-.2-4.4-.8-1.4-.6-2.6-1.4-3.7-2.5-1-1.1-1.8-2.4-2.4-3.8-.5-1.4-.8-2.9-.8-4.4v-90.2c0-2.1.5-4.2,1.4-6.1.8-1.9,2.1-3.5,3.6-4.9l53.3-54.6c1.4-1.6,3.2-2.8,5.1-3.7,1.9-.9,4.1-1.4,6.2-1.4h188.1c2.9.1,5.6,1.2,7.5,3.2,2.1,2,3.4,4.7,3.6,7.6Z"/>
+        <path class="nl3" d="M456.95,58.2l3.8.3v46.4c-2.8-.3-5.3-.5-7.5-.6h-5.3c-18,0-30.1,5.9-36.3,17.8-4,9.7-5.8,20.3-5.2,30.8v82.7h-45.1V62.4h42.7v30.2c4.7-8.8,10.8-16.9,18.1-23.8,9.3-7.4,20.9-11.1,32.7-10.6-.1,0,2.1,0,2.1,0h0Z"/>
+        <path class="nl3" d="M590.25,65.9c12.1,5.5,22.3,14.4,29.6,25.6,7.2,10.7,11.9,23,13.7,35.8,1.4,11.4,1.8,22.9,1.5,34.4h-124.8c.7,17.4,6.7,29.5,17.9,36.5,7.5,4.5,16,6.8,24.7,6.5,7,.6,14-1,20.1-4.6,6.1-3.5,11-8.9,14-15.3h45.7c-2,12-7.9,22.9-16.6,31.3-15.4,16.8-36.8,25.3-64.4,25.3-21.9.3-43.3-7.2-60.3-21.2-17.5-14.1-26.2-37.2-26.2-69.4,0-30,7.9-52.9,23.6-68.8,8-8,17.5-14.3,28-18.5,10.5-4.2,21.7-6.1,33-5.7,14-.2,27.8,2.5,40.5,8.1h0ZM523.35,105c-6.7,7.4-10.9,16.8-11.9,26.8h77.1c0-5.1-1.1-10.2-3.1-14.9s-5-8.9-8.7-12.4c-7.4-6.2-16.9-9.5-26.5-9.2-4.9-.3-9.8.4-14.4,2-4.6,1.6-9,4.3-12.5,7.7h0Z"/>
+        <path class="nl3" d="M760.05,124.5c-.8-6.2-3-12.2-6.4-17.5-2.8-3.6-6.3-6.4-10.4-8.3-4.1-1.8-8.6-2.6-13-2.3-6.9-.3-13.8,1.8-19.4,5.9-5.6,4.1-9.7,10-11.6,16.8-3.3,10.2-4.8,21-4.4,31.8-.4,10.4,1.1,20.8,4.4,30.6,1.9,6.5,5.9,12.2,11.4,16.1,5.5,3.9,12.1,5.9,18.8,5.5,10.5,0,18-2.9,22.4-8.6,4.7-6.5,7.5-14.2,8-22.2h45.7c-1.1,14.3-6.2,28-14.8,39.4-14,19.8-34.8,29.7-62.4,29.7s-47.9-8.3-60.8-24.8c-13-16.5-19.5-37.9-19.5-64.3,0-29.7,7.2-52.8,21.6-69.3,14.4-16.5,34.2-24.8,59.4-24.9,18.6-.8,37.1,4.3,52.7,14.6,13.7,9.7,21.8,26.9,24.3,51.6l-46,.2h0Z"/>
+        <path class="nl3" d="M915.25,58.2l3.8.3v46.4c-2.8-.3-5.3-.5-7.5-.6h-5.2c-18,0-30.1,5.9-36.3,17.8-4,9.7-5.8,20.3-5.2,30.8v82.7h-45.1V62.4h42.7v30.2c4.7-8.8,10.8-16.8,18-23.8,9.3-7.4,20.9-11.1,32.7-10.6,0,0,2.1,0,2.1,0Z"/>
+        <path class="nl3" d="M981.65,62.4v104.4c-.4,7.6.8,15.1,3.4,22.2,4.1,8.8,12.1,13.2,23.9,13.2,15.2,0,25.7-6.2,31.4-18.7,3.2-8.6,4.7-17.7,4.4-26.8V62.4h45.4v173.1h-43.5v-24.5c-.4.5-1.5,2.1-3.1,4.8-1.6,2.6-3.7,5-6,7-5.8,5.6-12.7,10.1-20.3,13-7.4,2.5-15.1,3.6-22.9,3.5-25.3,0-42.3-9.2-51.1-27.6-4.9-10.2-7.3-25.1-7.3-45V62.4h45.7,0Z"/>
+        <path class="nl3" d="M1156.35,41.8h-45.3V0h45.3v41.8ZM1111.05,62.4h45.3v173.1h-45.3V62.4Z"/>
+        <path class="nl3" d="M1172.35,96.3v-32.3h23.9V15.9h44.3v48.3h27.8v32.2h-27.8v91.3c-.6,4.6.3,9.3,2.7,13.2,1.8,1.7,7.2,2.6,16.3,2.6h8.8v33.8l-21.2.8c-21.2.7-35.6-3-43.4-11.1-5.5-6.7-8.2-15.3-7.5-24v-106.7h-23.9Z"/>
+        <path class="nl3" d="M1318.85,235.6h-19.3V67h19.3v23.5c7.1-7.7,15.2-14.5,24-20.2,9-5.4,19.3-8.1,29.7-7.8,9.8-.1,19.5,1.7,28.6,5.3,9.1,3.8,16.8,10.3,22.2,18.7,3.8,5.6,6.3,12,7.2,18.7.8,6.6,1.1,13.3,1.1,20v110.4h-19.3v-110c0-15.1-3.3-26.5-10-34.1s-17.7-11.4-33.1-11.4c-5.6-.1-11.1.9-16.4,2.7-4.8,1.7-9.3,4.1-13.3,7.2-3.9,3-7.3,6.5-10.1,10.6-2.8,3.8-4.9,7.9-6.4,12.4-1.9,5.1-3.1,10.4-3.6,15.9-.4,5-.6,10.6-.6,16.3v90.4h0Z"/>
+        <path class="nl3" d="M1525.25,240.1c-10.3-.1-20.5-2.1-30.1-5.9-9.3-3.6-17.6-9.3-24.5-16.6-7.3-8-13-17.4-16.5-27.6-4.3-12.4-6.4-25.5-6.1-38.7-.1-11.7,1.6-23.4,4.8-34.7,3-10.2,7.9-19.8,14.5-28.1,6.5-8.1,14.8-14.6,24.1-19.1,10.8-4.6,22.3-7,34-7s23.3,2.4,34,7c9.3,4.4,17.6,10.9,24.1,18.9,6.6,8.3,11.4,17.9,14.1,28.1,3.2,11.3,4.7,23.1,4.7,34.8.2,12.3-1.6,24.7-5.2,36.4-3.4,10.3-8.7,19.8-15.7,28-6.7,7.8-15.1,13.9-24.4,18.1-10.1,4.4-20.9,6.6-31.8,6.4h0ZM1581.85,151.3c.1-9.4-1-18.8-3.2-28-1.9-8.1-5.3-15.8-9.9-22.6-4.5-6.4-10.5-11.5-17.4-15.1-8.2-4-17.1-5.9-26.2-5.6-9-.3-17.9,1.8-25.9,6-7,3.8-13,9.3-17.5,15.9-4.6,6.9-8,14.6-9.9,22.8-2.2,8.7-3.3,17.5-3.2,26.5-.1,9.7,1.2,19.4,3.7,28.7,2.1,8.2,5.8,15.8,10.8,22.6,4.7,6.2,10.7,11.3,17.7,14.7,7.6,3.6,16,5.4,24.5,5.3,9,.2,17.9-1.8,25.9-6,7-3.8,13-9.3,17.5-15.9,4.6-6.9,8-14.6,9.9-22.8,2-8.6,3.2-17.5,3.2-26.5h0Z"/>
+        <path class="nl3" d="M1757.75,209.5l43.6-142.5h19.6l-53.8,168.5h-20.6l-36.4-141.5h-.6l-37,141.5h-23l-50.9-168.5h19.4l43.1,143.8,38.6-143.8h21.6l36.4,142.5h0Z"/>
+        <path class="nl2" d="M954.65,358.3c-5.7,0-10.3-1.5-13.6-4.7-3.3-3.1-5-7.3-5-12.6,0-3.4.9-6.4,2.6-9,1.7-2.6,4.2-4.6,7.3-6s6.7-2.1,10.9-2.1c2.3,0,4.5.2,6.7.6,2.1.4,4,1,5.6,1.8v-3.3c0-3-.8-5.2-2.5-6.7s-4.1-2.2-7.3-2.2c-2.6,0-5.2.5-7.9,1.4s-5.5,2.3-8.2,4.1l-3.9-10.2c3-2,6.4-3.5,10.1-4.6,3.7-1.1,7.5-1.6,11.2-1.6,7.1,0,12.4,1.7,15.9,5s5.3,8.3,5.3,15v33.8h-12.6v-4.2c-1.8,1.8-3.9,3.1-6.4,4.1-2.7.9-5.4,1.3-8.2,1.4h0ZM957.55,347.4c2.1,0,4.2-.4,6.2-1.3,2-.8,3.7-2,5.3-3.6v-6.2c-1.5-.7-3.1-1.3-4.9-1.7-1.8-.4-3.6-.6-5.4-.6-3.2,0-5.7.6-7.5,1.8-1.8,1.2-2.8,2.9-2.8,5.1,0,2,.8,3.6,2.4,4.7,1.6,1.2,3.9,1.8,6.7,1.8h0Z"/>
+        <path class="nl2" d="M1020.15,357v-9.7l27-31.5h-25v-11.4h41.6v9.5l-26.9,31.7h26.8v11.4h-43.5Z"/>
+        <path class="nl2" d="M1091.45,357l-19.3-52.7h13.3l11,31.3c.3.8.6,1.6.8,2.4l.7,2.6c.2-.9.5-1.7.8-2.6s.5-1.7.8-2.4l11-31.3h13.3l-19.3,52.7h-13.1Z"/>
+        <path class="nl2" d="M1154.75,358.3c-7.4,0-13.3-2.5-17.6-7.4-4.3-4.9-6.4-11.6-6.4-20.2,0-5.6,1-10.5,2.9-14.7s4.7-7.3,8.3-9.6c3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5s2.9,9,2.9,14.7-.9,10.6-2.9,14.7-4.6,7.3-8.2,9.5c-3.6,2.4-7.8,3.5-12.7,3.6h0ZM1154.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="nl2" d="M1213.75,358.3c-7.4,0-13.3-2.5-17.6-7.4-4.3-4.9-6.4-11.6-6.4-20.2,0-5.6,1-10.5,2.9-14.7,2-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5,1.9,4.1,2.9,9,2.9,14.7s-.9,10.6-2.9,14.7c-1.9,4.1-4.6,7.3-8.2,9.5-3.5,2.4-7.8,3.5-12.7,3.6h0ZM1213.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2c1.9,2.6,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="nl2" d="M1263.65,357l-19.3-52.7h13.3l11,31.3c.3.8.6,1.6.8,2.4l.7,2.6c.2-.9.5-1.7.8-2.6s.5-1.7.8-2.4l11-31.3h13.3l-19.3,52.7h-13.1Z"/>
+        <path class="nl2" d="M1327.35,358.3c-5,0-9.4-1.1-13.1-3.4-3.7-2.3-6.5-5.5-8.4-9.6-2-4.1-3-9-3-14.6s1-10.6,3-14.7,4.8-7.3,8.5-9.5c3.7-2.2,8-3.3,13-3.3,4.3,0,8.1.9,11.6,2.7,3.5,1.8,6.2,4.5,8.3,8.2s3.1,8.4,3.1,14.1c0,.9,0,2-.1,3.3s-.2,2.6-.3,3.9h-34.4c.1,2.4.7,4.5,1.7,6.3s2.3,3.2,4.1,4.2c1.7,1,3.7,1.5,6.1,1.5s4.7-.4,6.5-1.3c1.9-.8,3.6-2.2,5.3-4l7.4,7.7c-2.3,2.6-5,4.7-8.2,6.2-3.2,1.5-6.9,2.3-11.1,2.3h0ZM1315.65,325.2h22.2c-.2-2.3-.7-4.3-1.5-5.9-.9-1.7-2.1-2.9-3.6-3.8-1.6-.9-3.4-1.3-5.6-1.3-3,0-5.6.9-7.7,2.8-2.2,1.7-3.4,4.5-3.8,8.2h0Z"/>
+        <path class="nl2" d="M1409.75,358.3c-4.8,0-9-1.1-12.6-3.3-3.5-2.2-6.3-5.4-8.2-9.5-1.9-4.1-2.9-9-2.9-14.7s1-10.6,2.9-14.7c1.9-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.6-3.4,5.5,0,10,1.3,13.6,3.8s6.2,6.3,7.9,11.2l-12.2,4.1c-.8-2.2-2-3.9-3.6-5.1-1.6-1.2-3.4-1.8-5.5-1.8-3.3,0-6,1.4-8,4.1s-3,6.5-3,11.2,1,8.4,2.9,11.1,4.5,4.1,7.8,4.1c2.3,0,4.3-.6,5.9-2,1.6-1.3,2.8-3.2,3.6-5.7l12.2,3.7c-1.6,5.4-4.2,9.5-7.9,12.2-3.6,2.9-8.2,4.2-13.8,4.3h0Z"/>
+        <path class="nl2" d="M1465.75,358.3c-7.4,0-13.3-2.5-17.6-7.4s-6.4-11.6-6.4-20.2c0-5.6,1-10.5,2.9-14.7,2-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5,1.9,4.1,2.9,9,2.9,14.7s-.9,10.6-2.9,14.7c-1.9,4.1-4.7,7.3-8.2,9.5-3.5,2.4-7.8,3.5-12.7,3.6h0ZM1465.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="nl2" d="M1501.95,357v-52.7h12.9v4.9c1.7-2.1,3.6-3.7,5.7-4.7s4.5-1.5,7.2-1.5c3.1,0,5.8.6,8,1.9s4,3.1,5.2,5.6c1.8-2.4,4-4.2,6.7-5.5s5.9-1.9,9.3-1.9c6.5,0,11.3,1.7,14.6,5.2,3.3,3.5,4.9,8.6,4.9,15.5v33.2h-12.8v-28.8c0-4.4-.7-7.6-2.2-9.7-1.4-2.1-3.7-3.1-6.7-3.1-2.1,0-3.8.5-5.1,1.4-1.4.9-2.4,2.3-3.1,4.2-.7,1.9-1,4.2-1,7.1v29h-12.8v-28.8c0-4.4-.7-7.7-2.1-9.7-1.4-2.1-3.6-3.1-6.7-3.1s-5.4,1-7,3c-1.5,2-2.3,5.2-2.3,9.4v29.1h-12.7Z"/>
+        <path class="nl2" d="M1592.85,377.9v-73.6h12.9v3.9c2.9-3.4,6.7-5.1,11.6-5.1,4.5,0,8.4,1.1,11.6,3.3,3.3,2.2,5.8,5.4,7.5,9.5,1.8,4.1,2.6,9,2.6,14.7s-.9,10.4-2.7,14.5-4.4,7.3-7.7,9.6c-3.3,2.3-7.1,3.4-11.5,3.4-2.4,0-4.6-.4-6.5-1.3s-3.6-2.2-4.9-3.9v19.1l-12.9,5.9h0ZM1615.25,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.8-6.4,2.8-11.3s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8-4-2.1,0-3.9.4-5.5,1.1-1.6.8-2.9,1.9-4.1,3.4v21.3c.9,1.5,2.2,2.6,3.9,3.4,1.8,1,3.7,1.4,5.7,1.4h0Z"/>
+        <path class="nl2" d="M1668.45,358.3c-5.7,0-10.3-1.5-13.6-4.7-3.3-3.1-5-7.3-5-12.6,0-3.4.9-6.4,2.6-9,1.7-2.6,4.2-4.6,7.3-6,3.1-1.4,6.7-2.1,10.9-2.1,2.3,0,4.5.2,6.7.6s4,1,5.6,1.8v-3.3c0-3-.8-5.2-2.5-6.7-1.7-1.5-4.1-2.2-7.3-2.2-2.6,0-5.2.5-7.9,1.4-2.7.9-5.5,2.3-8.2,4.1l-3.9-10.2c3-2,6.4-3.5,10.1-4.6s7.5-1.6,11.2-1.6c7.1,0,12.4,1.7,15.9,5s5.3,8.3,5.3,15v33.8h-12.6v-4.2c-1.8,1.8-3.9,3.1-6.4,4.1-2.6.9-5.3,1.3-8.2,1.4h0ZM1671.45,347.4c2.1,0,4.2-.4,6.2-1.3,2-.8,3.7-2,5.3-3.6v-6.2c-1.5-.7-3.1-1.3-4.9-1.7s-3.6-.6-5.4-.6c-3.2,0-5.7.6-7.5,1.8-1.8,1.2-2.8,2.9-2.8,5.1,0,2,.8,3.6,2.4,4.7,1.6,1.2,3.8,1.8,6.7,1.8h0Z"/>
+        <path class="nl2" d="M1710.95,357v-52.7h12.9v5c1.7-2.1,3.7-3.7,6.1-4.7,2.3-1,5-1.6,8.1-1.6,5.9,0,10.4,1.8,13.6,5.4,3.2,3.6,4.8,8.8,4.8,15.6v33h-12.8v-28.9c0-4.4-.8-7.7-2.3-9.7s-3.9-3.1-7.1-3.1c-3.5,0-6.1,1-7.8,3.1-1.7,2-2.5,5.2-2.5,9.5v29.1h-13,0Z"/>
+        <path class="nl2" d="M1777.85,377l8-20.9-19.7-51.7h13.2l11.5,30.8c.3.7.6,1.5.9,2.4s.5,1.7.8,2.6c.2-.9.4-1.7.8-2.5.3-.8.6-1.6.9-2.4l11.5-30.8h13.2l-27.7,72.7h-13.4v-.2h0Z"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://support.recruitnow.nl">Kennisbank</a></li>
+      <li><a href="https://support.recruitnow.nl">Ticket aanmaken</a></li>
+      <li><a href="#" class="active">Cockpit Dagstart</a></li>
+    </ul>
+    <div class="nav-right">Gebruikersdocumentatie &nbsp;·&nbsp; De Nieuwe Lichting</div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Kennisbank &nbsp;·&nbsp; De Nieuwe Lichting</div>
+    <h1>Cockpit Dagstart</h1>
+    <p class="hero-sub">
+      Alles wat je nodig hebt om het dagstart-rapport te lezen,
+      te filteren en te interpreteren.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="mk">Doelgroep</div>
+        <div class="mv">Gebruikers &amp; teamleiders</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="mk">Versie</div>
+        <div class="mv">1.0 — mei 2026</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="mk">Datafris</div>
+        <div class="mv">Dagelijks 06:00 uur</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrap">
+
+    <!-- TOC -->
+    <div class="toc-card">
+      <div class="toc-title">Inhoudsopgave</div>
+      <ol>
+        <li><a href="#doel">Wat doet dit rapport?</a></li>
+        <li><a href="#navigeren">Het rapport navigeren</a></li>
+        <li><a href="#filters">Filteren op periode, vestiging en gebruiker</a></li>
+        <li><a href="#kpis">KPI-kaarten boven aan het rapport</a></li>
+        <li><a href="#grafieken">Grafieken uitgelegd</a></li>
+        <li><a href="#detailtabel">De detailtabel</a></li>
+        <li><a href="#metriekenlijst">Wat betekent elke meting?</a></li>
+        <li><a href="#tips">Veelgestelde vragen &amp; tips</a></li>
+      </ol>
+    </div>
+
+    <!-- 1. WAT DOET DIT RAPPORT -->
+    <div class="section-card" id="doel">
+      <h2 class="no-break"><span class="sec-num">1</span> Wat doet dit rapport?</h2>
+      <div class="divider"></div>
+      <p>
+        De <strong>Cockpit Dagstart</strong> is een overzichtspagina die elke ochtend in een paar seconden laat zien
+        hoe het ervoor staat binnen de vestigingen van De Nieuwe Lichting. Het rapport is bedoeld als startpunt
+        voor het dagelijks teamoverleg ("dagstart"): je ziet in één oogopslag hoeveel kandidaten er zijn aangeboden,
+        ingepland of geplaatst — uitgesplitst per vestiging en gebruiker.
+      </p>
+      <p>Het rapport bestaat uit <strong>één pagina</strong> met drie zones:</p>
+      <ul>
+        <li><strong>Bovenaan:</strong> drie KPI-kaarten met de actuele stand van zaken.</li>
+        <li><strong>Midden:</strong> drie staafdiagrammen met activiteiten per vestiging over de geselecteerde periode.</li>
+        <li><strong>Onderaan:</strong> een gedetailleerde tabel per vestiging en gebruiker.</li>
+      </ul>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div>
+          <strong>Geen Power BI-expert?</strong> Geen zorgen. Dit rapport werkt met knoppen en slicers
+          (filters) die je gewoon kunt aanklikken. Je kunt niets stukmaken — alle selecties zijn tijdelijk
+          en worden niet opgeslagen.
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. NAVIGEREN -->
+    <div class="section-card" id="navigeren">
+      <h2><span class="sec-num">2</span> Het rapport navigeren</h2>
+      <div class="divider"></div>
+      <p>Rechtsboven in de header staan twee kleine icoontjes:</p>
+      <table>
+        <thead><tr><th>Icoon</th><th>Naam</th><th>Wat doet het?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>☰</td>
+            <td><strong>Filtermenu openen</strong></td>
+            <td>Toont het filterpaneel aan de rechterkant van het rapport. Hier stel je de gewenste periode, vestiging en gebruiker in.</td>
+          </tr>
+          <tr>
+            <td>↺</td>
+            <td><strong>Filters wissen</strong></td>
+            <td>Zet alle filters terug naar de standaardwaarde ("Deze week", alle vestigingen, alle gebruikers). Handig als je snel wil terugkeren naar het startoverzicht.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div>
+          Klik je per ongeluk buiten het filtermenu? Gebruik dan de <strong>↺ knop</strong> om alles te resetten,
+          of klik opnieuw op het ☰ icoon om het menu te heropenen.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. FILTERS -->
+    <div class="section-card" id="filters">
+      <h2><span class="sec-num">3</span> Filteren op periode, vestiging en gebruiker</h2>
+      <div class="divider"></div>
+      <p>Via het filtermenu (☰) stuur je het rapport aan. Er zijn vier filters beschikbaar:</p>
+
+      <h3>Periode</h3>
+      <p>Selecteer een vooraf ingestelde tijdsperiode door op één van de kaartjes te klikken:</p>
+      <table>
+        <thead><tr><th>Optie</th><th>Toont gegevens van…</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill">Vorige week</span></td><td>Maandag t/m zondag van de vorige ISO-week.</td></tr>
+          <tr><td><span class="pill">Deze week</span></td><td>Maandag t/m vandaag van de huidige week. <em>(Standaard instelling.)</em></td></tr>
+          <tr><td><span class="pill">Volgende week</span></td><td>Maandag t/m zondag van de volgende week (bijv. voor het plannen van intakes).</td></tr>
+          <tr><td><span class="pill">Anders</span></td><td>Vrije datumkeuze. Er verschijnt een datumschuifregelaar waarmee je een eigen periode kiest.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div>
+          Kies je <strong>Anders</strong>? Dan verschijnt er automatisch een datumschuifregelaar.
+          Klik op de begin- of einddatum om een specifieke dag te kiezen via de kalender.
+          Alleen datums <em>waarop ook daadwerkelijk activiteit heeft plaatsgevonden</em> zijn selecteerbaar.
+        </div>
+      </div>
+
+      <h3>Vestiging</h3>
+      <p>
+        Klik op het uitklapmenu <span class="pill">Vestiging</span> om één of meerdere vestigingen te selecteren.
+        Standaard zijn alle vestigingen actief. Je kunt ook direct zoeken door tekst in te typen.
+      </p>
+
+      <h3>Gebruiker</h3>
+      <p>
+        Klik op het uitklapmenu <span class="pill">Gebruiker</span> om te filteren op één of meerdere gebruikers.
+        Systeemgebruikers en automatiseringsaccounts zijn <em>altijd</em> uitgesloten — de cijfers tonen uitsluitend
+        menselijke activiteit.
+      </p>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div>
+          <strong>Let op:</strong> de drie <strong>KPI-kaarten</strong> bovenaan het rapport tonen altijd
+          de <em>actuele stand van zaken</em> en reageren <strong>niet</strong> op de periode-filter.
+          Ze worden wel beïnvloed door de vestiging- en gebruikersfilters.
+        </div>
+      </div>
+
+      <h3>Filters combineren</h3>
+      <p>
+        Je kunt alle filters tegelijk toepassen. Selecteer je bijvoorbeeld "Deze week" + vestiging "Amsterdam" +
+        gebruiker "Anna de Vries", dan zie je uitsluitend de activiteiten van Anna in Amsterdam voor de huidige week.
+      </p>
+    </div>
+
+    <!-- 4. KPI KAARTEN -->
+    <div class="section-card" id="kpis">
+      <h2><span class="sec-num">4</span> KPI-kaarten boven aan het rapport</h2>
+      <div class="divider"></div>
+      <p>
+        De drie kaarten helemaal bovenaan geven de <strong>huidige stand</strong> in het systeem weer — ongeacht de
+        geselecteerde periode. Ze reageren wel op de vestiging- en gebruikersfilters.
+      </p>
+      <div class="card-row">
+        <div class="kpi-card">
+          <div class="kpi-num">Kaart 1</div>
+          <div class="kpi-title">Open sollicitaties</div>
+          <div class="kpi-desc">Sollicitaties met de status <em>"Nog te beoordelen"</em>. Nieuwe sollicitaties die nog niet door een gebruiker zijn beoordeeld.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">Kaart 2</div>
+          <div class="kpi-title">Geaccepteerde sollicitaties</div>
+          <div class="kpi-desc">Sollicitaties die al zijn goedgekeurd door een gebruiker — klaar voor de volgende stap in het proces.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">Kaart 3</div>
+          <div class="kpi-title">Plaatsingen in periode</div>
+          <div class="kpi-desc">Aantal plaatsingen (regulier + adhoc samen) in de geselecteerde periode. Deze kaart reageert wél op de periode-filter.</div>
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div>
+          De data wordt elke dag om <strong>06:00 uur</strong> ververst. Cijfers die je 's ochtends ziet,
+          zijn bijgewerkt met alle activiteit van de dag ervoor.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. GRAFIEKEN -->
+    <div class="section-card" id="grafieken">
+      <h2><span class="sec-num">5</span> Grafieken uitgelegd</h2>
+      <div class="divider"></div>
+      <p>
+        Onder de KPI-kaarten staan drie staafdiagrammen. Elke staaf vertegenwoordigt een <strong>vestiging</strong>.
+        De grafieken zijn gesorteerd van hoog naar laag — de meest actieve vestiging staat links.
+      </p>
+      <div class="visual-grid">
+        <div class="visual-card">
+          <span class="vc-icon">📋</span>
+          <div class="vc-title">Grafiek 1 — Intakes</div>
+          <div class="vc-desc">
+            Hoeveel intake-gesprekken zijn er in de geselecteerde periode gepland of gehouden?
+            Een intake is het eerste formele kennismakingsgesprek tussen gebruiker en kandidaat.<br/><br/>
+            <em>Gebruik dit om te zien welke vestiging de meeste nieuwe kandidaten heeft opgepakt.</em>
+          </div>
+        </div>
+        <div class="visual-card">
+          <span class="vc-icon">🤝</span>
+          <div class="vc-title">Grafiek 2 — Voorgesteld aan klant</div>
+          <div class="vc-desc">
+            Hoeveel kandidaten zijn er in de periode aan een opdrachtgever voorgesteld?
+            De staaf is gesplitst in twee kleuren:<br/>
+            • <strong>Voorgesteld</strong> — reguliere matches (vacature-gedreven).<br/>
+            • <strong>Voorgesteld Adhoc</strong> — adhoc (sollicitatie-gedreven).
+          </div>
+        </div>
+        <div class="visual-card">
+          <span class="vc-icon">✅</span>
+          <div class="vc-title">Grafiek 3 — Geplaatst</div>
+          <div class="vc-desc">
+            Hoeveel kandidaten zijn er daadwerkelijk geplaatst? Ook hier twee kleuren:<br/>
+            • <strong>Geplaatst</strong> — reguliere plaatsingen.<br/>
+            • <strong>Geplaatst Adhoc</strong> — adhoc-plaatsingen.<br/><br/>
+            <em>De verhouding Voorgesteld/Geplaatst geeft een indicatie van de conversie.</em>
+          </div>
+        </div>
+        <div class="visual-card">
+          <span class="vc-icon">🔎</span>
+          <div class="vc-title">Doorklikken op een staaf</div>
+          <div class="vc-desc">
+            Klik op een vestigingsstaaf om het rapport tijdelijk te filteren op die vestiging.
+            Alle andere grafieken en de tabel worden dan bijgewerkt. Klik nogmaals (of op een leeg vlak)
+            om de selectie op te heffen.
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>Wil je per gebruiker zien?</strong> Gebruik het filter <span class="pill">Gebruiker</span>
+          in het filtermenu om in te zoomen op één persoon. De grafieken tonen dan alleen die activiteiten.
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. DETAILTABEL -->
+    <div class="section-card" id="detailtabel">
+      <h2><span class="sec-num">6</span> De detailtabel</h2>
+      <div class="divider"></div>
+      <p>
+        Onderaan de pagina staat een matrix-tabel met alle metingen per <strong>vestiging</strong> en
+        <strong>gebruiker</strong>. Dit is het meest gedetailleerde overzicht van het rapport.
+      </p>
+
+      <h3>Kolommen in de tabel</h3>
+      <table>
+        <thead><tr><th>Kolom</th><th>Wat zie je?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Open sollicitaties</strong></td><td>Actueel aantal sollicitaties met status "Nog te beoordelen" (niet periode-gebonden).</td></tr>
+          <tr><td><strong>Geaccepteerde sollicitaties</strong></td><td>Actueel aantal goedgekeurde sollicitaties (niet periode-gebonden).</td></tr>
+          <tr><td><strong>Intakes</strong></td><td>Intakegesprekken in de geselecteerde periode.</td></tr>
+          <tr><td><strong>Voorgesteld</strong></td><td>Reguliere kandidaatvoorstellen aan opdrachtgevers in de periode.</td></tr>
+          <tr><td><strong>Voorgesteld Adhoc</strong></td><td>Adhoc-voorstellen aan opdrachtgevers in de periode.</td></tr>
+          <tr><td><strong>Geplande gesprekken</strong></td><td>Kandidaatgesprekken ingepland bij de opdrachtgever in de periode.</td></tr>
+          <tr><td><strong>Geplaatst</strong></td><td>Reguliere plaatsingen in de periode.</td></tr>
+          <tr><td><strong>Geplaatst Adhoc</strong></td><td>Adhoc-plaatsingen in de periode.</td></tr>
+          <tr><td><strong>Klantbezoeken</strong></td><td>Contactmomenten met opdrachtgevers in de periode.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Rijen uitklappen</h3>
+      <p>
+        De tabel toont standaard de totalen per vestiging (samengevouwen rijen).
+        Klik op het <strong>▶ pijltje</strong> links van een vestigingnaam om de individuele gebruikers
+        van die vestiging te zien. Klik nogmaals op <strong>▼</strong> om samen te vouwen.
+      </p>
+
+      <h3>Totaalrij</h3>
+      <p>
+        Onderaan de tabel staat een <strong>roze totaalrij</strong> met de optelsom van alle vestigingen.
+        Dit is het totaalcijfer voor de hele organisatie (of de geselecteerde subset).
+      </p>
+    </div>
+
+    <!-- 7. METINGEN -->
+    <div class="section-card" id="metriekenlijst">
+      <h2><span class="sec-num">7</span> Wat betekent elke meting?</h2>
+      <div class="divider"></div>
+
+      <h3>Snapshot-metingen <span class="badge teal">actueel</span></h3>
+      <p>Tonen altijd de huidige stand — <em>niet</em> gefilterd op periode. Reageren wel op vestiging en gebruiker.</p>
+      <table>
+        <thead><tr><th>Meting</th><th>Definitie</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Open sollicitaties</strong></td>
+            <td>Sollicitaties met de status "Nog te beoordelen" — nieuw en nog niet beoordeeld.</td>
+          </tr>
+          <tr>
+            <td><strong>Geaccepteerde sollicitaties</strong></td>
+            <td>Sollicitaties met status "Goedgekeurd" — de gebruiker heeft akkoord gegeven. Subset van de open sollicitaties.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Periode-metingen <span class="badge green">periode</span></h3>
+      <p>Gefilterd op de geselecteerde periode (Vorige week / Deze week / Volgende week / Anders).</p>
+      <table>
+        <thead><tr><th>Meting</th><th>Definitie</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Intakes</strong></td><td>Aantal ingeplande of gehouden intake-afspraken in de periode.</td></tr>
+          <tr><td><strong>Voorgesteld (regulier)</strong></td><td>Aantal keer dat een kandidaat is voorgesteld aan een opdrachtgever via een vacature-match.</td></tr>
+          <tr><td><strong>Voorgesteld Adhoc</strong></td><td>Aantal keer dat een kandidaat is voorgesteld via een directe sollicitatie zonder specifieke vacature.</td></tr>
+          <tr><td><strong>Geplande gesprekken</strong></td><td>Kandidaatgesprekken ingepland bij de opdrachtgever in de periode.</td></tr>
+          <tr><td><strong>Geplaatst (regulier)</strong></td><td>Sollicitaties die definitief zijn geplaatst via een vacature-match.</td></tr>
+          <tr><td><strong>Geplaatst Adhoc</strong></td><td>Sollicitaties die definitief zijn geplaatst via een adhoc-traject.</td></tr>
+          <tr><td><strong>Klantbezoeken</strong></td><td>Alle geregistreerde contactmomenten (telefonisch, bezoek, e-mail) met opdrachtgevers.</td></tr>
+          <tr><td><strong>Plaatsingen in periode</strong></td><td>Regulier + Adhoc geplaatst samen. Zichtbaar in KPI-kaart 3.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 8. FAQ -->
+    <div class="section-card" id="tips">
+      <h2><span class="sec-num">8</span> Veelgestelde vragen &amp; tips</h2>
+      <div class="divider"></div>
+
+      <h3>Het rapport toont geen data</h3>
+      <ol class="steps">
+        <li>Klik op ↺ om alle filters te resetten naar de standaardwaarde.</li>
+        <li>Controleer of de vestiging- of gebruikersfilter een selectie heeft die geen activiteit heeft in de gekozen periode.</li>
+        <li>Probeer <span class="pill">Deze week</span> of <span class="pill">Vorige week</span> — dit zijn doorgaans de meest gevulde periodes.</li>
+      </ol>
+
+      <h3>Ik wil een vrije datumrange kiezen</h3>
+      <ol class="steps">
+        <li>Klik op ☰ om het filtermenu te openen.</li>
+        <li>Klik op de kaart <span class="pill">Anders</span>.</li>
+        <li>Er verschijnt een datumschuifregelaar. Klik op de begindatum en selecteer de gewenste startdatum.</li>
+        <li>Herhaal voor de einddatum. Alleen datums met activiteit zijn selecteerbaar.</li>
+      </ol>
+
+      <h3>Ik wil de data exporteren naar Excel</h3>
+      <ol class="steps">
+        <li>Klik met de <strong>rechtermuisknop</strong> op de detailtabel.</li>
+        <li>Kies <strong>"Gegevens exporteren"</strong>.</li>
+        <li>Selecteer het gewenste bestandsformaat (.xlsx) en klik op Exporteren.</li>
+      </ol>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div>
+          Exporteer nooit naar een persoonlijk apparaat buiten de beveiligde omgeving van RecruitNow.
+          Volg de geldende privacyrichtlijnen van de organisatie.
+        </div>
+      </div>
+
+      <h3>Een gebruiker staat niet in de lijst</h3>
+      <p>
+        Systeemgebruikers en automatiseringsaccounts zijn bewust uitgesloten. Als een gebruiker niet zichtbaar is,
+        heeft die persoon in de geselecteerde periode geen activiteit geregistreerd.
+        Probeer de periode te verbreden of alle vestigingen te selecteren.
+      </p>
+
+      <h3>Hoe actueel zijn de gegevens?</h3>
+      <p>
+        De data wordt elke dag om <strong>06:00 uur</strong> ververst vanuit het bronsysteem.
+        Wijzigingen die na middernacht worden ingevoerd, zijn de volgende ochtend zichtbaar.
+      </p>
+    </div>
+
+    <!-- CONTACT BANNER -->
+    <div class="contact-banner">
+      <h3>Neem contact op</h3>
+      <p>Heb je vragen over dit rapport of wil je iets melden? Wij zorgen ervoor dat je snel een reactie ontvangt.</p>
+      <a class="btn-dark" href="https://support.recruitnow.nl">Maak een ticket aan</a>
+    </div>
+
+  </div><!-- /main-wrap -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="logo-wrap">
+      <svg id="ft-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1820.95 377.9" style="height:28px;width:auto;">
+        <path class="fl1" d="M272.25,74.17v90.4c0,2.2-.4,4.3-1.3,6.3-.8,2-2.1,3.7-3.6,5.2l-53.2,54.5c-1.3,1.6-2.9,2.9-4.8,3.8-2,1-4.1,1.4-6.2,1.4H14.75c-1.5.1-3-.2-4.4-.8-1.4-.6-2.6-1.4-3.7-2.5-1-1.1-1.8-2.4-2.4-3.8-.5-1.4-.8-2.9-.8-4.4v-90.2c0-2.1.5-4.2,1.4-6.1.8-1.9,2.1-3.5,3.6-4.9l53.3-54.6c1.4-1.6,3.2-2.8,5.1-3.7,1.9-.9,4.1-1.4,6.2-1.4h188.1c2.9.1,5.6,1.2,7.5,3.2,2.1,2,3.4,4.7,3.6,7.6Z"/>
+        <path class="fl2" d="M456.95,58.2l3.8.3v46.4c-2.8-.3-5.3-.5-7.5-.6h-5.3c-18,0-30.1,5.9-36.3,17.8-4,9.7-5.8,20.3-5.2,30.8v82.7h-45.1V62.4h42.7v30.2c4.7-8.8,10.8-16.9,18.1-23.8,9.3-7.4,20.9-11.1,32.7-10.6-.1,0,2.1,0,2.1,0h0Z"/>
+        <path class="fl2" d="M590.25,65.9c12.1,5.5,22.3,14.4,29.6,25.6,7.2,10.7,11.9,23,13.7,35.8,1.4,11.4,1.8,22.9,1.5,34.4h-124.8c.7,17.4,6.7,29.5,17.9,36.5,7.5,4.5,16,6.8,24.7,6.5,7,.6,14-1,20.1-4.6,6.1-3.5,11-8.9,14-15.3h45.7c-2,12-7.9,22.9-16.6,31.3-15.4,16.8-36.8,25.3-64.4,25.3-21.9.3-43.3-7.2-60.3-21.2-17.5-14.1-26.2-37.2-26.2-69.4,0-30,7.9-52.9,23.6-68.8,8-8,17.5-14.3,28-18.5,10.5-4.2,21.7-6.1,33-5.7,14-.2,27.8,2.5,40.5,8.1h0ZM523.35,105c-6.7,7.4-10.9,16.8-11.9,26.8h77.1c0-5.1-1.1-10.2-3.1-14.9s-5-8.9-8.7-12.4c-7.4-6.2-16.9-9.5-26.5-9.2-4.9-.3-9.8.4-14.4,2s-9,4.3-12.5,7.7h0Z"/>
+        <path class="fl2" d="M760.05,124.5c-.8-6.2-3-12.2-6.4-17.5-2.8-3.6-6.3-6.4-10.4-8.3-4.1-1.8-8.6-2.6-13-2.3-6.9-.3-13.8,1.8-19.4,5.9-5.6,4.1-9.7,10-11.6,16.8-3.3,10.2-4.8,21-4.4,31.8-.4,10.4,1.1,20.8,4.4,30.6,1.9,6.5,5.9,12.2,11.4,16.1,5.5,3.9,12.1,5.9,18.8,5.5,10.5,0,18-2.9,22.4-8.6,4.7-6.5,7.5-14.2,8-22.2h45.7c-1.1,14.3-6.2,28-14.8,39.4-14,19.8-34.8,29.7-62.4,29.7s-47.9-8.3-60.8-24.8c-13-16.5-19.5-37.9-19.5-64.3,0-29.7,7.2-52.8,21.6-69.3,14.4-16.5,34.2-24.8,59.4-24.9,18.6-.8,37.1,4.3,52.7,14.6,13.7,9.7,21.8,26.9,24.3,51.6l-46,.2h0Z"/>
+        <path class="fl2" d="M915.25,58.2l3.8.3v46.4c-2.8-.3-5.3-.5-7.5-.6h-5.2c-18,0-30.1,5.9-36.3,17.8-4,9.7-5.8,20.3-5.2,30.8v82.7h-45.1V62.4h42.7v30.2c4.7-8.8,10.8-16.8,18-23.8,9.3-7.4,20.9-11.1,32.7-10.6h2.1Z"/>
+        <path class="fl2" d="M981.65,62.4v104.4c-.4,7.6.8,15.1,3.4,22.2,4.1,8.8,12.1,13.2,23.9,13.2,15.2,0,25.7-6.2,31.4-18.7,3.2-8.6,4.7-17.7,4.4-26.8V62.4h45.4v173.1h-43.5v-24.5c-.4.5-1.5,2.1-3.1,4.8-1.6,2.6-3.7,5-6,7-5.8,5.6-12.7,10.1-20.3,13-7.4,2.5-15.1,3.6-22.9,3.5-25.3,0-42.3-9.2-51.1-27.6-4.9-10.2-7.3-25.1-7.3-45V62.4h45.7,0Z"/>
+        <path class="fl2" d="M1156.35,41.8h-45.3V0h45.3v41.8ZM1111.05,62.4h45.3v173.1h-45.3V62.4Z"/>
+        <path class="fl2" d="M1172.35,96.3v-32.3h23.9V15.9h44.3v48.3h27.8v32.2h-27.8v91.3c-.6,4.6.3,9.3,2.7,13.2,1.8,1.7,7.2,2.6,16.3,2.6h8.8v33.8l-21.2.8c-21.2.7-35.6-3-43.4-11.1-5.5-6.7-8.2-15.3-7.5-24v-106.7h-23.9Z"/>
+        <path class="fl2" d="M1318.85,235.6h-19.3V67h19.3v23.5c7.1-7.7,15.2-14.5,24-20.2,9-5.4,19.3-8.1,29.7-7.8,9.8-.1,19.5,1.7,28.6,5.3,9.1,3.8,16.8,10.3,22.2,18.7,3.8,5.6,6.3,12,7.2,18.7.8,6.6,1.1,13.3,1.1,20v110.4h-19.3v-110c0-15.1-3.3-26.5-10-34.1-6.7-7.6-17.7-11.4-33.1-11.4-5.6-.1-11.1.9-16.4,2.7-4.8,1.7-9.3,4.1-13.3,7.2-3.9,3-7.3,6.5-10.1,10.6-2.8,3.8-4.9,7.9-6.4,12.4-1.9,5.1-3.1,10.4-3.6,15.9-.4,5-.6,10.6-.6,16.3v90.4h0Z"/>
+        <path class="fl2" d="M1525.25,240.1c-10.3-.1-20.5-2.1-30.1-5.9-9.3-3.6-17.6-9.3-24.5-16.6-7.3-8-13-17.4-16.5-27.6-4.3-12.4-6.4-25.5-6.1-38.7-.1-11.7,1.6-23.4,4.8-34.7,3-10.2,7.9-19.8,14.5-28.1,6.5-8.1,14.8-14.6,24.1-19.1,10.8-4.6,22.3-7,34-7s23.3,2.4,34,7c9.3,4.4,17.6,10.9,24.1,18.9,6.6,8.3,11.4,17.9,14.1,28.1,3.2,11.3,4.7,23.1,4.7,34.8.2,12.3-1.6,24.7-5.2,36.4-3.4,10.3-8.7,19.8-15.7,28-6.7,7.8-15.1,13.9-24.4,18.1-10.1,4.4-20.9,6.6-31.8,6.4h0ZM1581.85,151.3c.1-9.4-1-18.8-3.2-28-1.9-8.1-5.3-15.8-9.9-22.6-4.5-6.4-10.5-11.5-17.4-15.1-8.2-4-17.1-5.9-26.2-5.6-9-.3-17.9,1.8-25.9,6-7,3.8-13,9.3-17.5,15.9-4.6,6.9-8,14.6-9.9,22.8-2.2,8.7-3.3,17.5-3.2,26.5-.1,9.7,1.2,19.4,3.7,28.7,2.1,8.2,5.8,15.8,10.8,22.6,4.7,6.2,10.7,11.3,17.7,14.7,7.6,3.6,16,5.4,24.5,5.3,9,.2,17.9-1.8,25.9-6,7-3.8,13-9.3,17.5-15.9,4.6-6.9,8-14.6,9.9-22.8,2-8.6,3.2-17.5,3.2-26.5h0Z"/>
+        <path class="fl2" d="M1757.75,209.5l43.6-142.5h19.6l-53.8,168.5h-20.6l-36.4-141.5h-.6l-37,141.5h-23l-50.9-168.5h19.4l43.1,143.8,38.6-143.8h21.6l36.4,142.5h0Z"/>
+        <path class="fl2" d="M954.65,358.3c-5.7,0-10.3-1.5-13.6-4.7-3.3-3.1-5-7.3-5-12.6,0-3.4.9-6.4,2.6-9,1.7-2.6,4.2-4.6,7.3-6s6.7-2.1,10.9-2.1c2.3,0,4.5.2,6.7.6,2.1.4,4,1,5.6,1.8v-3.3c0-3-.8-5.2-2.5-6.7s-4.1-2.2-7.3-2.2c-2.6,0-5.2.5-7.9,1.4s-5.5,2.3-8.2,4.1l-3.9-10.2c3-2,6.4-3.5,10.1-4.6,3.7-1.1,7.5-1.6,11.2-1.6,7.1,0,12.4,1.7,15.9,5s5.3,8.3,5.3,15v33.8h-12.6v-4.2c-1.8,1.8-3.9,3.1-6.4,4.1-2.7.9-5.4,1.3-8.2,1.4h0ZM957.55,347.4c2.1,0,4.2-.4,6.2-1.3,2-.8,3.7-2,5.3-3.6v-6.2c-1.5-.7-3.1-1.3-4.9-1.7-1.8-.4-3.6-.6-5.4-.6-3.2,0-5.7.6-7.5,1.8-1.8,1.2-2.8,2.9-2.8,5.1,0,2,.8,3.6,2.4,4.7,1.6,1.2,3.9,1.8,6.7,1.8h0Z"/>
+        <path class="fl2" d="M1020.15,357v-9.7l27-31.5h-25v-11.4h41.6v9.5l-26.9,31.7h26.8v11.4h-43.5Z"/>
+        <path class="fl2" d="M1091.45,357l-19.3-52.7h13.3l11,31.3c.3.8.6,1.6.8,2.4l.7,2.6c.2-.9.5-1.7.8-2.6s.5-1.7.8-2.4l11-31.3h13.3l-19.3,52.7h-13.1Z"/>
+        <path class="fl2" d="M1154.75,358.3c-7.4,0-13.3-2.5-17.6-7.4-4.3-4.9-6.4-11.6-6.4-20.2,0-5.6,1-10.5,2.9-14.7s4.7-7.3,8.3-9.6c3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5s2.9,9,2.9,14.7-.9,10.6-2.9,14.7-4.6,7.3-8.2,9.5c-3.6,2.4-7.8,3.5-12.7,3.6h0ZM1154.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="fl2" d="M1213.75,358.3c-7.4,0-13.3-2.5-17.6-7.4-4.3-4.9-6.4-11.6-6.4-20.2,0-5.6,1-10.5,2.9-14.7,2-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5,1.9,4.1,2.9,9,2.9,14.7s-.9,10.6-2.9,14.7c-1.9,4.1-4.6,7.3-8.2,9.5-3.5,2.4-7.8,3.5-12.7,3.6h0ZM1213.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2c1.9,2.6,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="fl2" d="M1263.65,357l-19.3-52.7h13.3l11,31.3c.3.8.6,1.6.8,2.4l.7,2.6c.2-.9.5-1.7.8-2.6s.5-1.7.8-2.4l11-31.3h13.3l-19.3,52.7h-13.1Z"/>
+        <path class="fl2" d="M1327.35,358.3c-5,0-9.4-1.1-13.1-3.4-3.7-2.3-6.5-5.5-8.4-9.6-2-4.1-3-9-3-14.6s1-10.6,3-14.7,4.8-7.3,8.5-9.5c3.7-2.2,8-3.3,13-3.3,4.3,0,8.1.9,11.6,2.7,3.5,1.8,6.2,4.5,8.3,8.2s3.1,8.4,3.1,14.1c0,.9,0,2-.1,3.3-.1,1.3-.2,2.6-.3,3.9h-34.4c.1,2.4.7,4.5,1.7,6.3s2.3,3.2,4.1,4.2c1.7,1,3.7,1.5,6.1,1.5s4.7-.4,6.5-1.3c1.9-.8,3.6-2.2,5.3-4l7.4,7.7c-2.3,2.6-5,4.7-8.2,6.2-3.2,1.5-6.9,2.3-11.1,2.3h0ZM1315.65,325.2h22.2c-.2-2.3-.7-4.3-1.5-5.9-.9-1.7-2.1-2.9-3.6-3.8-1.6-.9-3.4-1.3-5.6-1.3-3,0-5.6.9-7.7,2.8-2.2,1.7-3.4,4.5-3.8,8.2h0Z"/>
+        <path class="fl2" d="M1409.75,358.3c-4.8,0-9-1.1-12.6-3.3-3.5-2.2-6.3-5.4-8.2-9.5-1.9-4.1-2.9-9-2.9-14.7s1-10.6,2.9-14.7c1.9-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.6-3.4,5.5,0,10,1.3,13.6,3.8,3.6,2.5,6.2,6.3,7.9,11.2l-12.2,4.1c-.8-2.2-2-3.9-3.6-5.1-1.6-1.2-3.4-1.8-5.5-1.8-3.3,0-6,1.4-8,4.1s-3,6.5-3,11.2,1,8.4,2.9,11.1c1.9,2.7,4.5,4.1,7.8,4.1,2.3,0,4.3-.6,5.9-2,1.6-1.3,2.8-3.2,3.6-5.7l12.2,3.7c-1.6,5.4-4.2,9.5-7.9,12.2-3.6,2.9-8.2,4.2-13.8,4.3h0Z"/>
+        <path class="fl2" d="M1465.75,358.3c-7.4,0-13.3-2.5-17.6-7.4s-6.4-11.6-6.4-20.2c0-5.6,1-10.5,2.9-14.7,2-4.1,4.7-7.3,8.3-9.6,3.6-2.2,7.8-3.4,12.8-3.4s9.1,1.1,12.7,3.3c3.6,2.2,6.3,5.4,8.2,9.5,1.9,4.1,2.9,9,2.9,14.7s-.9,10.6-2.9,14.7c-1.9,4.1-4.7,7.3-8.2,9.5-3.5,2.4-7.8,3.5-12.7,3.6h0ZM1465.75,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.9-6.4,2.9-11.2s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8.1-4s-6.2,1.4-8.1,4.1c-2,2.7-2.9,6.5-2.9,11.3s1,8.5,2.9,11.2,4.6,3.9,8.1,3.9h0Z"/>
+        <path class="fl2" d="M1501.95,357v-52.7h12.9v4.9c1.7-2.1,3.6-3.7,5.7-4.7s4.5-1.5,7.2-1.5c3.1,0,5.8.6,8,1.9,2.2,1.3,4,3.1,5.2,5.6,1.8-2.4,4-4.2,6.7-5.5,2.7-1.3,5.9-1.9,9.3-1.9,6.5,0,11.3,1.7,14.6,5.2,3.3,3.5,4.9,8.6,4.9,15.5v33.2h-12.8v-28.8c0-4.4-.7-7.6-2.2-9.7-1.4-2.1-3.7-3.1-6.7-3.1-2.1,0-3.8.5-5.1,1.4-1.4.9-2.4,2.3-3.1,4.2-.7,1.9-1,4.2-1,7.1v29h-12.8v-28.8c0-4.4-.7-7.7-2.1-9.7-1.4-2.1-3.6-3.1-6.7-3.1s-5.4,1-7,3c-1.5,2-2.3,5.2-2.3,9.4v29.1h-12.7Z"/>
+        <path class="fl2" d="M1592.85,377.9v-73.6h12.9v3.9c2.9-3.4,6.7-5.1,11.6-5.1,4.5,0,8.4,1.1,11.6,3.3,3.3,2.2,5.8,5.4,7.5,9.5,1.8,4.1,2.6,9,2.6,14.7s-.9,10.4-2.7,14.5c-1.8,4.1-4.4,7.3-7.7,9.6-3.3,2.3-7.1,3.4-11.5,3.4-2.4,0-4.6-.4-6.5-1.3s-3.6-2.2-4.9-3.9v19.1l-12.9,5.9h0ZM1615.25,345.9c3.5,0,6.2-1.3,8.1-4,1.9-2.7,2.8-6.4,2.8-11.3s-1-8.6-2.9-11.3c-1.9-2.7-4.6-4-8-4-2.1,0-3.9.4-5.5,1.1-1.6.8-2.9,1.9-4.1,3.4v21.3c.9,1.5,2.2,2.6,3.9,3.4,1.8,1,3.7,1.4,5.7,1.4h0Z"/>
+        <path class="fl2" d="M1668.45,358.3c-5.7,0-10.3-1.5-13.6-4.7-3.3-3.1-5-7.3-5-12.6,0-3.4.9-6.4,2.6-9,1.7-2.6,4.2-4.6,7.3-6,3.1-1.4,6.7-2.1,10.9-2.1,2.3,0,4.5.2,6.7.6s4,1,5.6,1.8v-3.3c0-3-.8-5.2-2.5-6.7-1.7-1.5-4.1-2.2-7.3-2.2-2.6,0-5.2.5-7.9,1.4-2.7.9-5.5,2.3-8.2,4.1l-3.9-10.2c3-2,6.4-3.5,10.1-4.6,3.7-1.1,7.5-1.6,11.2-1.6,7.1,0,12.4,1.7,15.9,5s5.3,8.3,5.3,15v33.8h-12.6v-4.2c-1.8,1.8-3.9,3.1-6.4,4.1-2.6.9-5.3,1.3-8.2,1.4h0ZM1671.45,347.4c2.1,0,4.2-.4,6.2-1.3,2-.8,3.7-2,5.3-3.6v-6.2c-1.5-.7-3.1-1.3-4.9-1.7s-3.6-.6-5.4-.6c-3.2,0-5.7.6-7.5,1.8-1.8,1.2-2.8,2.9-2.8,5.1,0,2,.8,3.6,2.4,4.7,1.6,1.2,3.8,1.8,6.7,1.8h0Z"/>
+        <path class="fl2" d="M1710.95,357v-52.7h12.9v5c1.7-2.1,3.7-3.7,6.1-4.7,2.3-1,5-1.6,8.1-1.6,5.9,0,10.4,1.8,13.6,5.4,3.2,3.6,4.8,8.8,4.8,15.6v33h-12.8v-28.9c0-4.4-.8-7.7-2.3-9.7s-3.9-3.1-7.1-3.1c-3.5,0-6.1,1-7.8,3.1-1.7,2-2.5,5.2-2.5,9.5v29.1h-13,0Z"/>
+        <path class="fl2" d="M1777.85,377l8-20.9-19.7-51.7h13.2l11.5,30.8c.3.7.6,1.5.9,2.4s.5,1.7.8,2.6c.2-.9.4-1.7.8-2.5.3-.8.6-1.6.9-2.4l11.5-30.8h13.2l-27.7,72.7h-13.4v-.2h0Z"/>
+      </svg>
+    </div>
+    <span>Cockpit Dagstart — De Nieuwe Lichting &nbsp;·&nbsp; Versie 1.0 — mei 2026</span>
+    <a href="https://support.recruitnow.nl">support.recruitnow.nl</a>
+  </footer>
+
+</body>
+</html>
